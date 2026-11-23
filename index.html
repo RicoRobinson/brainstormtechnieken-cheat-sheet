@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Veertien design thinking-technieken om in je eentje te brainstormen met een AI-agent. Cheat sheet bij de AI for Design-workshop.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 28'%3E%3Cpolygon points='2,14 18,2 34,14 18,26' fill='%230E777D'/%3E%3Cpolygon points='38,14 54,2 70,14 54,26' fill='%23AE4A17'/%3E%3C/svg%3E">
+<title>Brainstormen met een agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a deck of method cards. Header with the method and a double-diamond filter, then a quick chooser, then the card grid. */
+:root {
+  --bg: #F2F4F6;
+  --surface: #FFFFFF;
+  --fg: #17212B;
+  --muted: #56626E;
+  --line: #D6DCE2;
+  --div: #0E777D;
+  --div-soft: #D6EDEE;
+  --con: #AE4A17;
+  --con-soft: #F6E1D4;
+  --you-bg: #FBEFB2;
+  --you-fg: #3A3207;
+  --code-bg: #EDF0F3;
+  --focus: #1D4ED8;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151A; --surface: #19212A; --fg: #E6EBF0; --muted: #9DA9B5; --line: #2D3742;
+    --div: #55C3C8; --div-soft: #163A3D; --con: #F2915E; --con-soft: #45281A;
+    --you-bg: #3E3818; --you-fg: #F6EDBF; --code-bg: #131920; --focus: #8AB4FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151A; --surface: #19212A; --fg: #E6EBF0; --muted: #9DA9B5; --line: #2D3742;
+  --div: #55C3C8; --div-soft: #163A3D; --con: #F2915E; --con-soft: #45281A;
+  --you-bg: #3E3818; --you-fg: #F6EDBF; --code-bg: #131920; --focus: #8AB4FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2rem 3rem;
+  display: grid;
+  gap: 2.25rem;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.1rem); line-height: 1.05; font-weight: 750; letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; font-weight: 750; }
+h3 { font-size: 1.3rem; font-weight: 750; line-height: 1.15; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+.eyebrow {
+  font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700;
+}
+
+/* Header */
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.top-text { display: grid; gap: 0.75rem; max-width: 62ch; min-width: 0; }
+.lede { font-size: 1.1rem; color: var(--muted); }
+.lede strong { color: var(--fg); }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+.lang button {
+  border: 0; background: transparent; padding: 0.35rem 0.85rem; border-radius: 999px;
+  font-weight: 700; font-size: 0.85rem; cursor: pointer; color: var(--muted);
+}
+.lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+
+/* Method + diamond */
+.method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.5rem; align-items: stretch; }
+@media (max-width: 860px) { .method { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem 1.35rem; display: grid; gap: 1rem; align-content: start; min-width: 0; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; align-items: start; }
+.steps li::before {
+  counter-increment: s; content: counter(s);
+  width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 750; background: var(--code-bg);
+}
+.steps b { display: block; }
+.steps span { color: var(--muted); font-size: 0.95rem; }
+.rule { border-top: 1px dashed var(--line); padding-top: 0.9rem; font-size: 0.95rem; }
+.rule b { color: var(--fg); }
+
+.diamond-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.showall {
+  border: 1px solid var(--line); background: transparent; border-radius: 999px;
+  padding: 0.3rem 0.8rem; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.showall[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.dd { width: 100%; height: auto; display: block; }
+.dd .half { cursor: pointer; transition: fill-opacity 0.15s; stroke-width: 2; }
+.dd .half.div { fill: var(--div); stroke: var(--div); fill-opacity: 0.16; }
+.dd .half.con { fill: var(--con); stroke: var(--con); fill-opacity: 0.16; }
+.dd .half:hover { fill-opacity: 0.32; }
+.dd .half[aria-pressed="true"] { fill-opacity: 0.85; }
+.dd .half:focus { outline: none; }
+.dd .half:focus-visible { stroke: var(--focus); stroke-width: 4; }
+.dd text { pointer-events: none; font-family: var(--font-body); }
+.dd .hlabel { font-size: 13px; font-weight: 700; fill: var(--fg); }
+.dd .hlabel.on { fill: var(--surface); }
+.dd .count { font-size: 11px; fill: var(--muted); }
+.dd .count.on { fill: var(--surface); }
+.dd .plabel { font-family: var(--font-display); font-size: 16px; font-weight: 750; fill: var(--fg); }
+.dd-note { font-size: 0.9rem; color: var(--muted); }
+
+/* Quick chooser */
+.chooser { display: grid; gap: 0.9rem; }
+.choose-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 0.5rem 1.5rem; }
+.choose-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; padding-block: 0.45rem; border-bottom: 1px solid var(--line); }
+.choose-list .want { flex: 1 1 12rem; min-width: 0; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 0.15rem 0.65rem; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.chip:hover { border-color: var(--fg); }
+
+/* Cards */
+.grid-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+.shown { color: var(--muted); font-size: 0.95rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 1rem; align-items: start; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.15rem 1.2rem 1rem; display: grid; gap: 0.8rem; min-width: 0;
+  scroll-margin-top: 1rem;
+}
+.card.flash { animation: flash 1.4s ease-out; }
+@keyframes flash { 0% { box-shadow: 0 0 0 4px var(--focus); } 100% { box-shadow: 0 0 0 0 transparent; } }
+@media (prefers-reduced-motion: reduce) { .card.flash { animation: none; outline: 3px solid var(--focus); } .dd .half { transition: none; } }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; }
+.phase { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em; }
+.phase.div { color: var(--div); }
+.phase.con { color: var(--con); }
+.phase svg { width: 38px; height: 15px; flex: none; }
+.dur { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500; white-space: nowrap; background: var(--code-bg); padding: 0.1rem 0.5rem; border-radius: 6px; font-variant-numeric: tabular-nums; }
+.field { display: grid; gap: 0.15rem; }
+.field .k { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.roles { display: grid; gap: 0.4rem; }
+.role { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 10px; font-size: 0.95rem; }
+.role .who { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding-top: 0.15rem; }
+.role.agent { background: var(--code-bg); }
+.role.agent .who { color: var(--muted); }
+.role.you { background: var(--you-bg); color: var(--you-fg); }
+details { border-top: 1px solid var(--line); padding-top: 0.6rem; }
+summary { cursor: pointer; font-weight: 700; font-size: 0.92rem; list-style-position: outside; }
+.prompt-box { margin-top: 0.6rem; display: grid; gap: 0.5rem; }
+pre {
+  margin: 0; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere;
+  background: var(--code-bg); border-radius: 8px; padding: 0.75rem 0.85rem;
+  font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.55;
+}
+pre .ph { color: var(--div); font-weight: 500; }
+.copy {
+  justify-self: start; border: 1px solid var(--line); background: var(--surface); border-radius: 8px;
+  padding: 0.3rem 0.75rem; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.copy:hover { border-color: var(--fg); }
+
+footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--line); padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; }
+
+@media print {
+  body { background: #fff; color: #000; }
+  .lang, .showall, .chooser, .copy, .dd-note { display: none !important; }
+  .wrap { padding-block: 0; gap: 1rem; }
+  .grid { grid-template-columns: 1fr 1fr; }
+  .card, .panel { break-inside: avoid; border-color: #bbb; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="top-text">
+      <p class="eyebrow" data-t="eyebrow">AI for Design · cheat sheet</p>
+      <h1 data-t="title">Brainstormen met een agent</h1>
+      <p class="lede" data-t="lede" data-html>Veertien design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.</p>
+    </div>
+    <div class="lang" role="group" aria-label="Taal / Language">
+      <button type="button" id="lang-nl" data-lang="nl" aria-pressed="true">NL</button>
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <section class="method" aria-labelledby="method-h">
+    <div class="panel">
+      <h2 id="method-h" data-t="methodH">Zo werk je met een agent</h2>
+      <ol class="steps">
+        <li><div><b data-t="s1b">Geef context mee</b><span data-t="s1s">Je probleem, je gebruikers, je eigen eerste ideeën. Hoe meer de agent weet, hoe minder hij verzint.</span></div></li>
+        <li><div><b data-t="s2b">Laat de agent verbreden</b><span data-t="s2s">Vragen, varianten, veel ideeën, ook gekke. Daar is een agent sterk in.</span></div></li>
+        <li><div><b data-t="s3b">Kies en controleer zelf</b><span data-t="s3s">De agent kent je gebruikers, je klant en je budget niet. Kiezen is jouw werk.</span></div></li>
+      </ol>
+      <p class="rule" data-t="rule" data-html><b>Drie gewoontes:</b> eerst zelf, dan de agent. Eindig je prompt met "Kies nog niets". En zeg "weet ik niet" als je het niet weet; dat wordt een open vraag voor de business.</p>
+    </div>
+
+    <div class="panel">
+      <div class="diamond-head">
+        <h2 data-t="ddH">Waar in het proces zit je?</h2>
+        <button type="button" class="showall" id="showall" aria-pressed="true" data-t="all">Alles tonen</button>
+      </div>
+      <svg class="dd" viewBox="0 0 640 228" role="group" aria-label="Double diamond">
+        <polygon class="half div" data-phase="pd" points="20,100 170,18 170,182" role="button" tabindex="0" aria-pressed="false"></polygon>
+        <polygon class="half con" data-phase="pc" points="170,18 320,100 170,182" role="button" tabindex="0" aria-pressed="false"></polygon>
+        <polygon class="half div" data-phase="sd" points="320,100 470,18 470,182" role="button" tabindex="0" aria-pressed="false"></polygon>
+        <polygon class="half con" data-phase="sc" points="470,18 620,100 470,182" role="button" tabindex="0" aria-pressed="false"></polygon>
+        <text class="hlabel" data-for="pd" x="118" y="100" text-anchor="middle"></text>
+        <text class="count" data-count="pd" x="118" y="117" text-anchor="middle"></text>
+        <text class="hlabel" data-for="pc" x="222" y="100" text-anchor="middle"></text>
+        <text class="count" data-count="pc" x="222" y="117" text-anchor="middle"></text>
+        <text class="hlabel" data-for="sd" x="418" y="100" text-anchor="middle"></text>
+        <text class="count" data-count="sd" x="418" y="117" text-anchor="middle"></text>
+        <text class="hlabel" data-for="sc" x="522" y="100" text-anchor="middle"></text>
+        <text class="count" data-count="sc" x="522" y="117" text-anchor="middle"></text>
+        <text class="plabel" id="pl-problem" x="170" y="214" text-anchor="middle">Het probleem</text>
+        <text class="plabel" id="pl-solution" x="470" y="214" text-anchor="middle">De oplossing</text>
+      </svg>
+      <p class="dd-note" data-t="ddNote">Klik op een helft om alleen die technieken te tonen. Links ga je breed, rechts kies je. Opdracht 1 loopt van links naar rechts door beide ruiten.</p>
+    </div>
+  </section>
+
+  <section class="chooser" aria-labelledby="choose-h">
+    <h2 id="choose-h" data-t="chooseH">Snel kiezen: ik wil...</h2>
+    <ul class="choose-list" id="choose-list"></ul>
+  </section>
+
+  <section aria-labelledby="grid-h" style="display:grid;gap:1rem">
+    <div class="grid-head">
+      <h2 id="grid-h" data-t="gridH">De technieken</h2>
+      <p class="shown" id="shown" aria-live="polite"></p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>
+    <span data-t="foot1">AI for Design · Mendix-meetup, 25 november 2026</span>
+    <span data-t="foot2">De duur is een richtlijn voor één persoon met een agent.</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var UI = {
+    nl: {
+      eyebrow: "AI for Design · cheat sheet",
+      title: "Brainstormen met een agent",
+      lede: "Veertien design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.",
+      methodH: "Zo werk je met een agent",
+      s1b: "Geef context mee", s1s: "Je probleem, je gebruikers, je eigen eerste ideeën. Hoe meer de agent weet, hoe minder hij verzint.",
+      s2b: "Laat de agent verbreden", s2s: "Vragen, varianten, veel ideeën, ook gekke. Daar is een agent sterk in.",
+      s3b: "Kies en controleer zelf", s3s: "De agent kent je gebruikers, je klant en je budget niet. Kiezen is jouw werk.",
+      rule: "<b>Drie gewoontes:</b> eerst zelf, dan de agent. Eindig je prompt met \"Kies nog niets\". En zeg \"weet ik niet\" als je het niet weet; dat wordt een open vraag voor de business.",
+      ddH: "Waar in het proces zit je?", all: "Alles tonen",
+      ddNote: "Klik op een helft om alleen die technieken te tonen. Links ga je breed, rechts kies je. Opdracht 1 loopt van links naar rechts door beide ruiten.",
+      problem: "Het probleem", solution: "De oplossing",
+      diverge: "Divergeren", converge: "Convergeren",
+      chooseH: "Snel kiezen: ik wil...", gridH: "De technieken",
+      shownAll: "Alle {n} technieken", shownSome: "{n} van {t} technieken: {p}",
+      techniques: "technieken", technique: "techniek",
+      when: "Wanneer", output: "Wat het oplevert", agent: "Agent", you: "Jij",
+      prompt: "Startprompt", copy: "Kopieer prompt", copied: "Gekopieerd", copyFail: "Tekst geselecteerd, kopieer met Ctrl+C",
+      foot1: "AI for Design · Mendix-meetup, 25 november 2026",
+      foot2: "De duur is een richtlijn voor één persoon met een agent.",
+      phase: { pd: "Probleem · divergeren", pc: "Probleem · convergeren", sd: "Oplossing · divergeren", sc: "Oplossing · convergeren" }
+    },
+    en: {
+      eyebrow: "AI for Design · cheat sheet",
+      title: "Brainstorming with an agent",
+      lede: "Fourteen design thinking techniques you can do on your own, with an agent as your sparring partner. For each one: when to use it, what it gives you, how long it takes and <strong>which part you do yourself</strong>.",
+      methodH: "How you work with an agent",
+      s1b: "Give it context", s1s: "Your problem, your users, your own first ideas. The more the agent knows, the less it makes up.",
+      s2b: "Let the agent go wide", s2s: "Questions, variants, lots of ideas, wild ones too. That's what an agent is good at.",
+      s3b: "Choose and check yourself", s3s: "The agent doesn't know your users, your client or your budget. Choosing is your job.",
+      rule: "<b>Three habits:</b> you first, then the agent. End your prompt with \"Don't choose anything yet\". And say \"I don't know\" when you don't; that becomes an open question for the business.",
+      ddH: "Where are you in the process?", all: "Show all",
+      ddNote: "Click a half to show only those techniques. On the left you go wide, on the right you choose. Assignment 1 runs left to right through both diamonds.",
+      problem: "The problem", solution: "The solution",
+      diverge: "Diverge", converge: "Converge",
+      chooseH: "Quick pick: I want to...", gridH: "The techniques",
+      shownAll: "All {n} techniques", shownSome: "{n} of {t} techniques: {p}",
+      techniques: "techniques", technique: "technique",
+      when: "When", output: "What you get", agent: "Agent", you: "You",
+      prompt: "Starter prompt", copy: "Copy prompt", copied: "Copied", copyFail: "Text selected, copy with Ctrl+C",
+      foot1: "AI for Design · Mendix meetup, 25 November 2026",
+      foot2: "Durations are a guideline for one person with an agent.",
+      phase: { pd: "Problem · diverge", pc: "Problem · converge", sd: "Solution · diverge", sc: "Solution · converge" }
+    }
+  };
+
+  var T = [
+    { id: "empathy-map", phase: "pd", min: 10,
+      name: { nl: "Empathy map", en: "Empathy map" },
+      when: { nl: "Je weet nog niet goed wie de gebruiker is of wat die ervaart.", en: "You don't really know yet who the user is or what they go through." },
+      out: { nl: "Een kaart met wat de gebruiker zegt, denkt, doet en voelt, met daaronder pijnpunten en wensen.", en: "A map of what the user says, thinks, does and feels, with pains and gains below it." },
+      agent: { nl: "Vult een eerste versie in op basis van jouw beschrijving en markeert wat aanname is.", en: "Fills in a first version from your description and marks what is an assumption." },
+      you: { nl: "Corrigeer wat niet klopt met wat je echt weet van gebruikers. Aannames streep je aan om te checken.", en: "Correct what's wrong using what you actually know about users. Flag the assumptions to check later." },
+      prompt: { nl: "Maak een empathy map voor [gebruiker] in deze situatie: [situatie].\nVier vakken: zegt, denkt, doet, voelt. Daaronder pijnpunten en wensen.\nZet (aanname) achter alles wat je niet uit mijn beschrijving haalt.\nGeef nog geen oplossingen.",
+                en: "Make an empathy map for [user] in this situation: [situation].\nFour boxes: says, thinks, does, feels. Below that, pains and gains.\nPut (assumption) after anything you don't take from my description.\nDon't give any solutions yet." } },
+    { id: "rollenspel-interview", phase: "pd", min: 10,
+      name: { nl: "Rollenspel-interview", en: "Role-play interview" },
+      when: { nl: "Je kunt vandaag geen echte gebruiker spreken, maar wilt wel weten welke vragen je moet stellen.", en: "You can't talk to a real user today, but you want to know which questions to ask." },
+      out: { nl: "Mogelijke pijnpunten, en vooral de vragen die je straks aan echte gebruikers stelt.", en: "Possible pain points, and above all the questions you'll ask real users later." },
+      agent: { nl: "Speelt de gebruiker en beantwoordt jouw vragen vanuit die rol.", en: "Plays the user and answers your questions in character." },
+      you: { nl: "Stel de vragen en vraag door op vage antwoorden. Onthoud: dit is een hypothese, check het bij een echte gebruiker.", en: "Ask the questions and push on vague answers. Remember: this is a hypothesis, check it with a real user." },
+      prompt: { nl: "Speel [gebruiker], die [situatie].\nIk interview je over je werkdag. Antwoord kort, in de ik-vorm, en blijf in je rol. Zeg \"dat weet ik niet\" als je het niet weet.\nAls ik \"stop\" zeg, stap je uit je rol en geef je de drie antwoorden die ik het eerst bij een echte gebruiker moet checken.",
+                en: "Play [user], who [situation].\nI'm interviewing you about your working day. Answer briefly, in the first person, and stay in character. Say \"I don't know\" when you don't.\nWhen I say \"stop\", step out of character and give me the three answers I should check with a real user first." } },
+    { id: "vijf-waarom", phase: "pc", min: 5,
+      name: { nl: "5x Waarom", en: "Five whys" },
+      when: { nl: "Je ziet een symptoom, maar weet niet wat de oorzaak is.", en: "You see a symptom, but you don't know the cause." },
+      out: { nl: "Een keten van vijf waarom-vragen die eindigt bij de grondoorzaak, en een scherpere probleemstelling.", en: "A chain of five why-questions that ends at the root cause, and a sharper problem statement." },
+      agent: { nl: "Vraagt steeds door met \"waarom?\" en vat de keten samen.", en: "Keeps asking \"why?\" and sums up the chain." },
+      you: { nl: "Geef de antwoorden. Jij kent de situatie; de agent mag alleen vragen.", en: "Give the answers. You know the situation; the agent only gets to ask." },
+      prompt: { nl: "Het probleem dat ik zie: [symptoom].\nVraag me vijf keer \"waarom?\", één vraag tegelijk, en wacht steeds op mijn antwoord.\nVat daarna de keten samen en formuleer de grondoorzaak in één zin. Geef geen oplossingen.",
+                en: "The problem I see: [symptom].\nAsk me \"why?\" five times, one question at a time, and wait for my answer each time.\nThen sum up the chain and phrase the root cause in one sentence. Don't give any solutions." } },
+    { id: "hoe-kunnen-we", phase: "pc", min: 5,
+      name: { nl: "Hoe kunnen we-vragen", en: "How might we questions" },
+      when: { nl: "Je hebt een probleemstelling en wilt die omzetten in een startvraag voor je brainstorm.", en: "You have a problem statement and want to turn it into a starting question for your brainstorm." },
+      out: { nl: "Tien Hoe kunnen we-vragen, van smal tot breed, waaruit jij er één kiest.", en: "Ten How might we questions, from narrow to broad, and you pick one." },
+      agent: { nl: "Herformuleert je probleem met steeds een andere focus: kleiner, groter, vanuit een andere gebruiker.", en: "Rephrases your problem with a different focus each time: smaller, bigger, from another user's view." },
+      you: { nl: "Kies een vraag die niet te breed is (\"hoe kunnen we kantoorwerk verbeteren?\") en niet te smal (dan zit er al een oplossing in).", en: "Pick a question that isn't too broad (\"how might we improve office work?\") or too narrow (then a solution is already in it)." },
+      prompt: { nl: "Mijn probleemstelling: [probleemstelling].\nMaak er tien Hoe kunnen we-vragen van. Maak sommige smaller, sommige breder, en schrijf er een paar vanuit een andere gebruiker.\nZet er geen oplossing in.",
+                en: "My problem statement: [problem statement].\nTurn it into ten How might we questions. Make some narrower, some broader, and write a few from another user's point of view.\nDon't put a solution in them." } },
+    { id: "crazy-8s", phase: "sd", min: 10,
+      name: { nl: "Crazy 8s", en: "Crazy 8s" },
+      when: { nl: "Je wilt snel visuele ideeën voor één scherm of één moment, en niet blijven hangen in tekst.", en: "You want quick visual ideas for one screen or one moment, without getting stuck in text." },
+      out: { nl: "Acht schetsen in acht minuten, plus wat de agent erin ziet: de sterkste, en welke je kunt combineren.", en: "Eight sketches in eight minutes, plus what the agent sees in them: the strongest ones, and which to combine." },
+      agent: { nl: "Bekijkt een foto van je schetsen, benoemt per vak het idee en stelt combinaties voor.", en: "Looks at a photo of your sketches, names the idea in each box and suggests combinations." },
+      you: { nl: "Vouw een A4 in acht vakken en schets in acht minuten acht varianten. Lelijk mag, snel moet.", en: "Fold an A4 into eight boxes and sketch eight variants in eight minutes. Ugly is fine, fast is the point." },
+      prompt: { nl: "Hier is een foto van mijn Crazy 8s voor [scherm of moment].\nBeschrijf per vak in één zin het idee. Welke drie passen het best bij mijn Hoe kunnen we-vraag: [vraag]?\nStel twee combinaties voor van vakken die elkaar aanvullen. Ontwerp nog niets.",
+                en: "Here's a photo of my Crazy 8s for [screen or moment].\nDescribe the idea in each box in one sentence. Which three fit my How might we question best: [question]?\nSuggest two combinations of boxes that complement each other. Don't design anything yet." } },
+    { id: "scamper", phase: "sd", min: 10,
+      name: { nl: "SCAMPER", en: "SCAMPER" },
+      when: { nl: "Er bestaat al een proces, app of scherm dat beter moet.", en: "There's already a process, app or screen that needs to get better." },
+      out: { nl: "Veertien ideeën: per letter één veilig en één gewaagd idee.", en: "Fourteen ideas: one safe and one bold idea per letter." },
+      agent: { nl: "Loopt de zeven letters langs en bouwt voort op jouw eigen ideeën.", en: "Works through the seven letters and builds on your own ideas." },
+      you: { nl: "Geef je eigen vijf ideeën mee, en markeer de ideeën die je verrassen.", en: "Hand over your own five ideas, and mark the ideas that surprise you." },
+      prompt: { nl: "Ik werk aan dit probleem: [probleemstelling]\nMijn eigen eerste ideeën: [vijf ideeën]\nPas SCAMPER toe (Substitute, Combine, Adapt, Modify, Put to other use, Eliminate, Reverse). Geef per letter twee concrete ideeën, één veilig en één gewaagd. Bouw voort op mijn ideeën waar dat kan.\nOntwerp nog niets en kies nog niets.",
+                en: "I'm working on this problem: [problem statement]\nMy own first ideas: [five ideas]\nApply SCAMPER (Substitute, Combine, Adapt, Modify, Put to other use, Eliminate, Reverse). Give two concrete ideas per letter, one safe and one bold. Build on my ideas where you can.\nDon't design anything yet and don't choose anything yet." } },
+    { id: "lotusbloem", phase: "sd", min: 15,
+      name: { nl: "Lotusbloem", en: "Lotus blossom" },
+      when: { nl: "Je weet nog niet waar de oplossing zit en wilt breed gaan.", en: "You don't know yet where the solution is and want to go broad." },
+      out: { nl: "Acht thema's rond je vraag, elk met vier concrete ideeën: 32 ideeën met structuur.", en: "Eight themes around your question, each with four concrete ideas: 32 ideas with structure." },
+      agent: { nl: "Bedenkt de thema's en vult de bladeren.", en: "Comes up with the themes and fills the petals." },
+      you: { nl: "Schrap thema's die niet bij jouw gebruikers passen, en kies er twee om verder uit te werken.", en: "Cross out themes that don't fit your users, and pick two to develop further." },
+      prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nMaak een lotusbloem: zet de vraag in het midden, bedenk acht thema's eromheen, en werk elk thema uit in vier concrete ideeën.\nOntwerp nog niets en kies nog niets.",
+                en: "My How might we question: [question]\nMake a lotus blossom: put the question in the middle, come up with eight themes around it, and work out each theme into four concrete ideas.\nDon't design anything yet and don't choose anything yet." } },
+    { id: "mindmap", phase: "sd", min: 10,
+      name: { nl: "Mindmap", en: "Mind map" },
+      when: { nl: "Je wilt overzicht van alles wat meespeelt voordat je kiest.", en: "You want an overview of everything that plays a role before you choose." },
+      out: { nl: "Een mindmap met takken voor gebruikers, momenten, data, regels, randgevallen en risico's.", en: "A mind map with branches for users, moments, data, rules, edge cases and risks." },
+      agent: { nl: "Voegt takken toe die je vergat en clustert ze. Werkt goed op een Miro-bord via MCP.", en: "Adds branches you forgot and clusters them. Works well on a Miro board via MCP." },
+      you: { nl: "Vul aan wat de agent niet kan weten: de regels en uitzonderingen van jouw organisatie.", en: "Add what the agent can't know: the rules and exceptions of your organisation." },
+      prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nMaak een mindmap met takken voor: gebruikers en hun context, momenten in hun dag, de data die nodig is, regels, randgevallen en risico's. Voeg per tak drie tot vijf punten toe.\nKies nog niets.",
+                en: "My How might we question: [question]\nMake a mind map with branches for: users and their context, moments in their day, the data that is needed, rules, edge cases and risks. Add three to five points per branch.\nDon't choose anything yet." } },
+    { id: "omgekeerd-brainstormen", phase: "sd", min: 10,
+      name: { nl: "Omgekeerd brainstormen", en: "Reverse brainstorming" },
+      when: { nl: "Je zit vast in de voor de hand liggende ideeën.", en: "You're stuck in the obvious ideas." },
+      out: { nl: "Tien manieren om het probleem erger te maken, elk omgedraaid tot een oplossing.", en: "Ten ways to make the problem worse, each flipped into a solution." },
+      agent: { nl: "Bedenkt de slechtste ideeën (daar is hij verrassend goed in) en draait ze om.", en: "Comes up with the worst ideas (it's surprisingly good at that) and flips them." },
+      you: { nl: "Zoek welke \"slechte\" ideeën nu al gebeuren. Daar zit vaak je echte probleem.", en: "Look for the \"bad\" ideas that already happen today. That's often where your real problem is." },
+      prompt: { nl: "Mijn probleem: [probleemstelling]\nBedenk tien manieren om dit probleem zo erg mogelijk te maken. Draai daarna elk idee om naar een oplossing.\nOntwerp nog niets.",
+                en: "My problem: [problem statement]\nCome up with ten ways to make this problem as bad as possible. Then flip each idea into a solution.\nDon't design anything yet." } },
+    { id: "analogieen", phase: "sd", min: 10,
+      name: { nl: "Analogieën", en: "Analogies" },
+      when: { nl: "Je wilt ideeën van buiten je eigen vakgebied.", en: "You want ideas from outside your own field." },
+      out: { nl: "Vijf domeinen die een vergelijkbaar probleem al hebben opgelost, met per domein wat je kunt lenen.", en: "Five fields that already solved a similar problem, with what you can borrow from each." },
+      agent: { nl: "Zoekt domeinen met hetzelfde patroon, zoals een parkeergarage, een restaurant of een treinapp, en vertaalt hun oplossing.", en: "Finds fields with the same pattern, like a car park, a restaurant or a train app, and translates their solution." },
+      you: { nl: "Kies welke vertaling bij jouw gebruikers past, en bedenk wat er in jouw context anders is.", en: "Pick the translation that fits your users, and think about what's different in your context." },
+      prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nNoem vijf domeinen buiten de IT die een vergelijkbaar probleem al hebben opgelost, zoals vervoer, horeca of zorg. Beschrijf per domein in twee zinnen hoe zij het doen, en wat ik daarvan kan lenen.\nOntwerp nog niets.",
+                en: "My How might we question: [question]\nName five fields outside IT that have already solved a similar problem, such as transport, hospitality or healthcare. For each one, describe in two sentences how they do it, and what I can borrow.\nDon't design anything yet." } },
+    { id: "zes-drie-vijf", phase: "sd", min: 15,
+      name: { nl: "6-3-5 met AI-personages", en: "6-3-5 with AI personas" },
+      when: { nl: "Je werkt alleen, maar wilt een groep die op elkaars ideeën voortbouwt.", en: "You work alone, but want a group that builds on each other's ideas." },
+      out: { nl: "Drie rondes ideeën van vijf personages, die elke ronde voortbouwen op de vorige.", en: "Three rounds of ideas from five personas, each round building on the last." },
+      agent: { nl: "Speelt vijf deelnemers: een gebruiker, een ontwikkelaar, een beheerder, een sceptische manager en een designer.", en: "Plays five participants: a user, a developer, an administrator, a sceptical manager and a designer." },
+      you: { nl: "Jij bent deelnemer zes: schrijf elke ronde eerst zelf drie ideeën voordat de personages reageren.", en: "You're participant six: write three ideas yourself each round before the personas respond." },
+      prompt: { nl: "We doen 6-3-5 brainwriting op deze vraag: [vraag]\nSpeel vijf deelnemers: een gebruiker, een ontwikkelaar, een beheerder, een sceptische manager en een designer. Ik ben deelnemer zes.\nRonde 1, mijn ideeën: [drie ideeën]\nGeef per deelnemer drie ideeën die voortbouwen op die van mij. Wacht daarna op mijn ideeën voor ronde 2.",
+                en: "We're doing 6-3-5 brainwriting on this question: [question]\nPlay five participants: a user, a developer, an administrator, a sceptical manager and a designer. I'm participant six.\nRound 1, my ideas: [three ideas]\nGive three ideas per participant that build on mine. Then wait for my ideas for round 2." } },
+    { id: "impact-moeite", phase: "sc", min: 5,
+      name: { nl: "Impact-moeitematrix", en: "Impact-effort matrix" },
+      when: { nl: "Je hebt te veel ideeën en moet kiezen wat je eerst doet.", en: "You have too many ideas and need to choose what comes first." },
+      out: { nl: "Een tabel met per idee de impact voor de gebruiker en de moeite om te bouwen in Mendix, met de quick wins bovenaan.", en: "A table with each idea's impact for the user and the effort to build it in Mendix, quick wins at the top." },
+      agent: { nl: "Clustert de ideeën en schat impact en moeite, met een reden erbij.", en: "Clusters the ideas and estimates impact and effort, with a reason for each." },
+      you: { nl: "Corrigeer de schattingen (jij kent het project) en kies zelf één richting.", en: "Correct the estimates (you know the project) and choose one direction yourself." },
+      prompt: { nl: "Groepeer alle ideeën hierboven, ook die van mij, in vier tot zes clusters met een korte naam.\nZet ze daarna in een tabel met de kolommen: idee, cluster, impact voor de gebruiker (hoog/middel/laag), moeite om te bouwen in Mendix (hoog/middel/laag), reden.\nKies nog niets.",
+                en: "Group all the ideas above, mine too, into four to six clusters with a short name.\nThen put them in a table with the columns: idea, cluster, impact for the user (high/medium/low), effort to build in Mendix (high/medium/low), reason.\nDon't choose anything yet." } },
+    { id: "zes-denkhoeden", phase: "sc", min: 10,
+      name: { nl: "Zes denkhoeden", en: "Six thinking hats" },
+      when: { nl: "Je hebt een richting en wilt die van alle kanten bekijken voordat je hem aan de business voorlegt.", en: "You have a direction and want to look at it from every side before you take it to the business." },
+      out: { nl: "Je richting bekeken met zes hoeden: feiten, gevoel, risico's, voordelen, nieuwe ideeën en de volgende stap.", en: "Your direction seen through six hats: facts, feelings, risks, benefits, new ideas and the next step." },
+      agent: { nl: "Zet steeds een andere hoed op en geeft per hoed drie punten.", en: "Puts on a different hat each time and gives three points per hat." },
+      you: { nl: "Weeg de punten. De zwarte hoed (risico's) is vaak de beste input voor je gesprek met de business.", en: "Weigh the points. The black hat (risks) is often the best input for your conversation with the business." },
+      prompt: { nl: "Mijn gekozen richting: [richting]\nBekijk hem met de zes denkhoeden van De Bono: wit (feiten en wat we nog niet weten), rood (het onderbuikgevoel van gebruikers), zwart (risico's), geel (voordelen), groen (nieuwe ideeën), blauw (wat is de volgende stap).\nGeef per hoed drie korte punten. Kies niets voor mij.",
+                en: "My chosen direction: [direction]\nLook at it with De Bono's six thinking hats: white (facts and what we don't know yet), red (users' gut feeling), black (risks), yellow (benefits), green (new ideas), blue (what's the next step).\nGive three short points per hat. Don't choose anything for me." } },
+    { id: "pre-mortem", phase: "sc", min: 5,
+      name: { nl: "Pre-mortem", en: "Pre-mortem" },
+      when: { nl: "Je hebt gekozen en wilt weten wat er mis kan gaan voordat je gaat ontwerpen.", en: "You've chosen and want to know what could go wrong before you start designing." },
+      out: { nl: "De redenen waarom het over zes maanden mislukt is, en de vragen die je nu aan de business stelt.", en: "The reasons it failed six months from now, and the questions you ask the business today." },
+      agent: { nl: "Doet alsof het project mislukt is en schrijft de oorzaken op.", en: "Pretends the project failed and writes down the causes." },
+      you: { nl: "Kies de twee oorzaken die echt kunnen gebeuren en zet ze als open vragen in je brief.", en: "Pick the two causes that could really happen and add them as open questions to your brief." },
+      prompt: { nl: "Stel je voor: het is over zes maanden en [richting] is mislukt. Niemand gebruikt het.\nSchrijf de zeven meest waarschijnlijke oorzaken op, verdeeld over gebruikers, techniek en organisatie.\nGeef daarna de drie vragen die ik nu aan de business moet stellen om dat te voorkomen.",
+                en: "Imagine it's six months from now and [direction] has failed. Nobody uses it.\nWrite down the seven most likely causes, spread across users, technology and organisation.\nThen give the three questions I should ask the business now to prevent that." } }
+  ];
+
+  var CHOOSE = [
+    { nl: "weten wie mijn gebruiker is", en: "understand who my user is", ids: ["empathy-map", "rollenspel-interview"] },
+    { nl: "de oorzaak achter een symptoom vinden", en: "find the cause behind a symptom", ids: ["vijf-waarom"] },
+    { nl: "een startvraag voor mijn brainstorm", en: "get a starting question for my brainstorm", ids: ["hoe-kunnen-we"] },
+    { nl: "een bestaand proces of scherm verbeteren", en: "improve an existing process or screen", ids: ["scamper"] },
+    { nl: "breed gaan, ik weet niet waar de oplossing zit", en: "go broad, I don't know where the solution is", ids: ["lotusbloem", "mindmap"] },
+    { nl: "uit de voor de hand liggende ideeën komen", en: "get out of the obvious ideas", ids: ["omgekeerd-brainstormen", "analogieen"] },
+    { nl: "snel visuele varianten van één scherm", en: "quick visual variants of one screen", ids: ["crazy-8s"] },
+    { nl: "een groep nadoen terwijl ik alleen werk", en: "simulate a group while working alone", ids: ["zes-drie-vijf"] },
+    { nl: "kiezen uit te veel ideeën", en: "choose from too many ideas", ids: ["impact-moeite"] },
+    { nl: "mijn richting testen voor ik naar de business ga", en: "test my direction before I go to the business", ids: ["zes-denkhoeden", "pre-mortem"] }
+  ];
+
+  var PHASE_COLOR = { pd: "div", pc: "con", sd: "div", sc: "con" };
+  var PHASE_IDX = { pd: 0, pc: 1, sd: 2, sc: 3 };
+  var lang = "nl";
+  var filter = null;
+
+  try { var saved = localStorage.getItem("bs-lang"); if (saved === "en" || saved === "nl") lang = saved; } catch (e) {}
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function promptHtml(s) {
+    return esc(s).replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
+  }
+  function mini(phase) {
+    var halves = [
+      "2,14 18,2 18,26", "18,2 34,14 18,26",
+      "38,14 54,2 54,26", "54,2 70,14 54,26"
+    ];
+    var idx = PHASE_IDX[phase];
+    var out = '<svg viewBox="0 0 72 28" aria-hidden="true">';
+    for (var i = 0; i < 4; i++) {
+      out += '<polygon points="' + halves[i] + '" fill="' + (i === idx ? "currentColor" : "none") +
+        '" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-opacity="' + (i === idx ? 1 : 0.45) + '"></polygon>';
+    }
+    return out + "</svg>";
+  }
+
+  function renderStatic() {
+    var u = UI[lang];
+    document.documentElement.lang = lang;
+    document.title = u.title;
+    document.querySelectorAll("[data-t]").forEach(function (el) {
+      var k = el.getAttribute("data-t");
+      if (u[k] == null) return;
+      if (el.hasAttribute("data-html")) el.innerHTML = u[k]; else el.textContent = u[k];
+    });
+    document.getElementById("pl-problem").textContent = u.problem;
+    document.getElementById("pl-solution").textContent = u.solution;
+    document.querySelectorAll(".dd .hlabel").forEach(function (el) {
+      var p = el.getAttribute("data-for");
+      el.textContent = (p === "pd" || p === "sd") ? u.diverge : u.converge;
+    });
+    document.querySelectorAll(".dd .count").forEach(function (el) {
+      var p = el.getAttribute("data-count");
+      var n = T.filter(function (t) { return t.phase === p; }).length;
+      el.textContent = n + " " + (n === 1 ? u.technique : u.techniques);
+    });
+    document.querySelectorAll(".dd .half").forEach(function (el) {
+      el.setAttribute("aria-label", u.phase[el.getAttribute("data-phase")]);
+    });
+    document.querySelectorAll(".lang button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang));
+    });
+
+    var list = document.getElementById("choose-list");
+    list.innerHTML = CHOOSE.map(function (c) {
+      var chips = c.ids.map(function (id) {
+        var t = T.find(function (x) { return x.id === id; });
+        return '<button type="button" class="chip" data-goto="' + id + '">' + esc(t.name[lang]) + "</button>";
+      }).join("");
+      return '<li><span class="want">' + esc(c[lang]) + "</span>" + chips + "</li>";
+    }).join("");
+  }
+
+  function renderCards() {
+    var u = UI[lang];
+    var open = {};
+    document.querySelectorAll(".card details[open]").forEach(function (d) { open[d.closest(".card").id] = true; });
+    var items = T.filter(function (t) { return !filter || t.phase === filter; });
+    document.getElementById("grid").innerHTML = items.map(function (t) {
+      var c = PHASE_COLOR[t.phase];
+      return '<article class="card" id="' + t.id + '" aria-labelledby="h-' + t.id + '">' +
+        '<div class="card-top"><span class="phase ' + c + '">' + mini(t.phase) + esc(u.phase[t.phase]) + '</span>' +
+        '<span class="dur">' + t.min + " min</span></div>" +
+        '<h3 id="h-' + t.id + '">' + esc(t.name[lang]) + "</h3>" +
+        '<div class="field"><span class="k">' + u.when + "</span><p>" + esc(t.when[lang]) + "</p></div>" +
+        '<div class="field"><span class="k">' + u.output + "</span><p>" + esc(t.out[lang]) + "</p></div>" +
+        '<div class="roles">' +
+          '<div class="role agent"><span class="who">' + u.agent + "</span><span>" + esc(t.agent[lang]) + "</span></div>" +
+          '<div class="role you"><span class="who">' + u.you + "</span><span>" + esc(t.you[lang]) + "</span></div>" +
+        "</div>" +
+        "<details" + (open[t.id] ? " open" : "") + "><summary>" + u.prompt + '</summary><div class="prompt-box">' +
+          '<pre id="p-' + t.id + '">' + promptHtml(t.prompt[lang]) + "</pre>" +
+          '<button type="button" class="copy" data-copy="' + t.id + '">' + u.copy + "</button>" +
+        "</div></details>" +
+      "</article>";
+    }).join("");
+
+    var shown = document.getElementById("shown");
+    shown.textContent = filter
+      ? u.shownSome.replace("{n}", items.length).replace("{t}", T.length).replace("{p}", u.phase[filter].toLowerCase())
+      : u.shownAll.replace("{n}", T.length);
+
+    document.querySelectorAll(".dd .half").forEach(function (el) {
+      var on = el.getAttribute("data-phase") === filter;
+      el.setAttribute("aria-pressed", String(on));
+    });
+    document.querySelectorAll(".dd .hlabel, .dd .count").forEach(function (el) {
+      var p = el.getAttribute("data-for") || el.getAttribute("data-count");
+      el.classList.toggle("on", p === filter);
+    });
+    document.getElementById("showall").setAttribute("aria-pressed", String(!filter));
+  }
+
+  function setFilter(p) { filter = (filter === p) ? null : p; renderCards(); }
+
+  document.querySelectorAll(".dd .half").forEach(function (el) {
+    el.addEventListener("click", function () { setFilter(el.getAttribute("data-phase")); });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFilter(el.getAttribute("data-phase")); }
+    });
+  });
+  document.getElementById("showall").addEventListener("click", function () { filter = null; renderCards(); });
+
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      lang = b.getAttribute("data-lang");
+      try { localStorage.setItem("bs-lang", lang); } catch (e) {}
+      renderStatic(); renderCards();
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    var go = e.target.closest("[data-goto]");
+    if (go) {
+      filter = null; renderCards();
+      var card = document.getElementById(go.getAttribute("data-goto"));
+      if (card) {
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash");
+        var h = card.querySelector("h3"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+      }
+      return;
+    }
+    var cp = e.target.closest("[data-copy]");
+    if (cp) {
+      var id = cp.getAttribute("data-copy");
+      var t = T.find(function (x) { return x.id === id; });
+      var u = UI[lang];
+      var done = function () { cp.textContent = u.copied; setTimeout(function () { cp.textContent = u.copy; }, 1600); };
+      var fail = function () {
+        var pre = document.getElementById("p-" + id);
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        cp.textContent = u.copyFail;
+        setTimeout(function () { cp.textContent = u.copy; }, 2400);
+      };
+      try {
+        navigator.clipboard.writeText(t.prompt[lang]).then(done, fail);
+      } catch (err) { fail(); }
+    }
+  });
+
+  window.addEventListener("beforeprint", function () {
+    document.querySelectorAll(".card details").forEach(function (d) { d.open = true; });
+  });
+
+  renderStatic();
+  renderCards();
+})();
+</script>
+</body>
+</html>
