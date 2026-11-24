@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2A1449">
-<meta name="description" content="Veertien design thinking-technieken om in je eentje te brainstormen met een AI-agent. Cheat sheet bij de AI for Design-workshop.">
+<meta name="description" content="Tweeëntwintig design thinking-technieken om in je eentje te brainstormen met een AI-agent. Cheat sheet bij de AI for Design-workshop.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 28'%3E%3Cpolygon points='2,14 18,2 34,14 18,26' fill='%23492D7B'/%3E%3Cpolygon points='38,14 54,2 70,14 54,26' fill='%23A60726'/%3E%3C/svg%3E">
 <title>Brainstormen met een agent</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -219,7 +219,7 @@ footer {
     <div class="top-text">
       <p class="eyebrow" data-t="eyebrow">AI for Design · cheat sheet</p>
       <h1 data-t="title">Brainstormen met een agent</h1>
-      <p class="lede" data-t="lede" data-html>Veertien design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.</p>
+      <p class="lede" data-t="lede" data-html>Tweeëntwintig design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.</p>
     </div>
     <div class="lang" role="group" aria-label="Taal / Language">
       <button type="button" id="lang-nl" data-lang="nl" aria-pressed="true">NL</button>
@@ -288,7 +288,7 @@ footer {
     nl: {
       eyebrow: "AI for Design · cheat sheet",
       title: "Brainstormen met een agent",
-      lede: "Veertien design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.",
+      lede: "Tweeëntwintig design thinking-technieken die je in je eentje kunt doen, met een agent als sparringpartner. Per techniek: wanneer je hem gebruikt, wat hij oplevert, hoe lang hij duurt en <strong>welk deel je zelf doet</strong>.",
       methodH: "Zo werk je met een agent",
       s1b: "Geef context mee", s1s: "Je probleem, je gebruikers, je eigen eerste ideeën. Hoe meer de agent weet, hoe minder hij verzint.",
       s2b: "Laat de agent verbreden", s2s: "Vragen, varianten, veel ideeën, ook gekke. Daar is een agent sterk in.",
@@ -310,7 +310,7 @@ footer {
     en: {
       eyebrow: "AI for Design · cheat sheet",
       title: "Brainstorming with an agent",
-      lede: "Fourteen design thinking techniques you can do on your own, with an agent as your sparring partner. For each one: when to use it, what it gives you, how long it takes and <strong>which part you do yourself</strong>.",
+      lede: "Twenty-two design thinking techniques you can do on your own, with an agent as your sparring partner. For each one: when to use it, what it gives you, how long it takes and <strong>which part you do yourself</strong>.",
       methodH: "How you work with an agent",
       s1b: "Give it context", s1s: "Your problem, your users, your own first ideas. The more the agent knows, the less it makes up.",
       s2b: "Let the agent go wide", s2s: "Questions, variants, lots of ideas, wild ones too. That's what an agent is good at.",
@@ -348,6 +348,22 @@ footer {
       you: { nl: "Stel de vragen en vraag door op vage antwoorden. Onthoud: dit is een hypothese, check het bij een echte gebruiker.", en: "Ask the questions and push on vague answers. Remember: this is a hypothesis, check it with a real user." },
       prompt: { nl: "Speel [gebruiker], die [situatie].\nIk interview je over je werkdag. Antwoord kort, in de ik-vorm, en blijf in je rol. Zeg \"dat weet ik niet\" als je het niet weet.\nAls ik \"stop\" zeg, stap je uit je rol en geef je de drie antwoorden die ik het eerst bij een echte gebruiker moet checken.",
                 en: "Play [user], who [situation].\nI'm interviewing you about your working day. Answer briefly, in the first person, and stay in character. Say \"I don't know\" when you don't.\nWhen I say \"stop\", step out of character and give me the three answers I should check with a real user first." } },
+    { id: "persona", phase: "pc", min: 10,
+      name: { nl: "Persona", en: "Persona" },
+      when: { nl: "Je wilt één gezicht om op te ontwerpen in plaats van \"de gebruiker\".", en: "You want one face to design for instead of \"the user\"." },
+      out: { nl: "Een persona van een halve pagina: doel, context, frustraties en één situatie waarin ze je product nodig heeft.", en: "A half-page persona: goal, context, frustrations and one situation where they need your product." },
+      agent: { nl: "Schrijft een eerste versie uit je empathy map of beschrijving en zet (aanname) achter alles wat hij verzint.", en: "Writes a first version from your empathy map or description and puts (assumption) after anything it makes up." },
+      you: { nl: "Schrap wat verzonnen is en vul aan met echte gegevens. Houd het bij één hoofdpersona.", en: "Cross out what is made up and fill in real data. Stick to one main persona." },
+      prompt: { nl: "Maak een persona voor [gebruiker] in deze situatie: [situatie].\nOpbouw: naam en rol, doel, context (waar, welk apparaat, hoeveel haast), drie frustraties, en één concrete situatie waarin de persona dit probleem tegenkomt.\nZet (aanname) achter alles wat je niet uit mijn beschrijving haalt.\nGeef nog geen oplossingen.",
+                en: "Make a persona for [user] in this situation: [situation].\nStructure: name and role, goal, context (where, which device, how rushed), three frustrations, and one concrete situation where the persona runs into this problem.\nPut (assumption) after anything you don't take from my description.\nDon't give any solutions yet." } },
+    { id: "jobs-to-be-done", phase: "pc", min: 5,
+      name: { nl: "Jobs to be done", en: "Jobs to be done" },
+      when: { nl: "Je wilt weten waarom iemand iets doet, los van een oplossing.", en: "You want to know why someone does something, apart from any solution." },
+      out: { nl: "Vijf job stories in de vorm \"Wanneer ik [situatie], wil ik [motivatie], zodat ik [uitkomst]\".", en: "Five job stories in the form \"When I [situation], I want to [motivation], so I can [outcome]\"." },
+      agent: { nl: "Formuleert job stories op drie niveaus: klein en praktisch, groter, en emotioneel.", en: "Writes job stories at three levels: small and practical, bigger, and emotional." },
+      you: { nl: "Kies de job die echt voor jouw gebruikers geldt. Klopt er geen enkele, dan weet je wat je bij een echte gebruiker moet uitzoeken.", en: "Pick the job that is really true for your users. If none of them is, you know what to find out from a real user." },
+      prompt: { nl: "Mijn gebruiker en situatie: [gebruiker, situatie].\nSchrijf vijf job stories in de vorm: Wanneer ik [situatie], wil ik [motivatie], zodat ik [uitkomst]. Laat de oplossing weg: noem geen app, scherm of functie.\nMaak ze op verschillende niveaus: klein en praktisch, groter, en emotioneel.\nKies nog niets.",
+                en: "My user and situation: [user, situation].\nWrite five job stories in this form: When I [situation], I want to [motivation], so I can [outcome]. Leave the solution out: don't mention an app, screen or feature.\nWrite them at different levels: small and practical, bigger, and emotional.\nDon't choose anything yet." } },
     { id: "vijf-waarom", phase: "pc", min: 5,
       name: { nl: "5x Waarom", en: "Five whys" },
       when: { nl: "Je ziet een symptoom, maar weet niet wat de oorzaak is.", en: "You see a symptom, but you don't know the cause." },
@@ -356,6 +372,14 @@ footer {
       you: { nl: "Geef de antwoorden. Jij kent de situatie; de agent mag alleen vragen.", en: "Give the answers. You know the situation; the agent only gets to ask." },
       prompt: { nl: "Het probleem dat ik zie: [symptoom].\nVraag me vijf keer \"waarom?\", één vraag tegelijk, en wacht steeds op mijn antwoord.\nVat daarna de keten samen en formuleer de grondoorzaak in één zin. Geef geen oplossingen.",
                 en: "The problem I see: [symptom].\nAsk me \"why?\" five times, one question at a time, and wait for my answer each time.\nThen sum up the chain and phrase the root cause in one sentence. Don't give any solutions." } },
+    { id: "probleemstelling", phase: "pc", min: 5,
+      name: { nl: "Probleemstelling", en: "Problem statement" },
+      when: { nl: "Je hebt inzichten over gebruikers en wilt ze in één zin vastleggen voordat je ideeën bedenkt.", en: "You have insights about users and want to capture them in one sentence before you come up with ideas." },
+      out: { nl: "Eén zin: wie wil wat, wat zit in de weg en wat is het gevolg.", en: "One sentence: who wants what, what stands in the way and what the consequence is." },
+      agent: { nl: "Schrijft vijf formuleringen met een andere nadruk en haalt de oplossing eruit als die erin sluipt.", en: "Writes five phrasings with a different emphasis and removes the solution if one sneaks in." },
+      you: { nl: "Kies de formulering die klopt en pas hem aan met cijfers of feiten die je kent.", en: "Pick the phrasing that is right and adjust it with numbers or facts you know." },
+      prompt: { nl: "Wat ik weet over het probleem: [inzichten, notities].\nSchrijf vijf probleemstellingen in dit format: [Wie] wil [wat], maar [wat zit in de weg], waardoor [gevolg].\nGeef elke variant een andere nadruk, bijvoorbeeld een andere gebruiker of een ander gevolg. Zet er geen oplossing in.\nKies nog niets.",
+                en: "What I know about the problem: [insights, notes].\nWrite five problem statements in this format: [Who] wants [what], but [what stands in the way], so [consequence].\nGive each variant a different emphasis, for example another user or another consequence. Don't put a solution in them.\nDon't choose anything yet." } },
     { id: "hoe-kunnen-we", phase: "pc", min: 5,
       name: { nl: "Hoe kunnen we-vragen", en: "How might we questions" },
       when: { nl: "Je hebt een probleemstelling en wilt die omzetten in een startvraag voor je brainstorm.", en: "You have a problem statement and want to turn it into a starting question for your brainstorm." },
@@ -364,6 +388,14 @@ footer {
       you: { nl: "Kies een vraag die niet te breed is (\"hoe kunnen we kantoorwerk verbeteren?\") en niet te smal (dan zit er al een oplossing in).", en: "Pick a question that isn't too broad (\"how might we improve office work?\") or too narrow (then a solution is already in it)." },
       prompt: { nl: "Mijn probleemstelling: [probleemstelling].\nMaak er tien Hoe kunnen we-vragen van. Maak sommige smaller, sommige breder, en schrijf er een paar vanuit een andere gebruiker.\nZet er geen oplossing in.",
                 en: "My problem statement: [problem statement].\nTurn it into ten How might we questions. Make some narrower, some broader, and write a few from another user's point of view.\nDon't put a solution in them." } },
+    { id: "ontwerp-succescriteria", phase: "pc", min: 5,
+      name: { nl: "Ontwerp- en succescriteria", en: "Design and success criteria" },
+      when: { nl: "Je gaat ideeën bedenken en wilt eerst weten waar een goede oplossing aan moet voldoen.", en: "You're about to come up with ideas and first want to know what a good solution has to meet." },
+      out: { nl: "Vijf ontwerpcriteria en vijf toetsbare succescriteria, elk met een getal of meetmoment.", en: "Five design criteria and five testable success criteria, each with a number or a moment to measure." },
+      agent: { nl: "Stelt criteria voor op basis van je probleemstelling en maakt ze toetsbaar.", en: "Proposes criteria based on your problem statement and makes them testable." },
+      you: { nl: "Kies wat echt telt en pas de getallen aan. Wat je nog niet weet, wordt een open vraag voor de business.", en: "Pick what really counts and adjust the numbers. What you don't know yet becomes an open question for the business." },
+      prompt: { nl: "Mijn probleemstelling: [probleemstelling]\nMijn gebruikers en context: [gebruikers, apparaat, randvoorwaarden]\nGeef vijf ontwerpcriteria (waar moet een oplossing aan voldoen, bijvoorbeeld \"bruikbaar met één hand\") en vijf succescriteria die je kunt toetsen (bijvoorbeeld \"vier van de vijf testers vinden een plek in drie tikken\").\nZet (voorstel) achter elk getal dat ik niet zelf heb gegeven.\nBedenk nog geen oplossingen.",
+                en: "My problem statement: [problem statement]\nMy users and context: [users, device, constraints]\nGive five design criteria (what a solution has to meet, for example \"usable with one hand\") and five success criteria you can test (for example \"four out of five testers find a spot in three taps\").\nPut (proposal) after every number I didn't give myself.\nDon't come up with solutions yet." } },
     { id: "crazy-8s", phase: "sd", min: 10,
       name: { nl: "Crazy 8s", en: "Crazy 8s" },
       when: { nl: "Je wilt snel visuele ideeën voor één scherm of één moment, en niet blijven hangen in tekst.", en: "You want quick visual ideas for one screen or one moment, without getting stuck in text." },
@@ -412,6 +444,38 @@ footer {
       you: { nl: "Kies welke vertaling bij jouw gebruikers past, en bedenk wat er in jouw context anders is.", en: "Pick the translation that fits your users, and think about what's different in your context." },
       prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nNoem vijf domeinen buiten de IT die een vergelijkbaar probleem al hebben opgelost, zoals vervoer, horeca of zorg. Beschrijf per domein in twee zinnen hoe zij het doen, en wat ik daarvan kan lenen.\nOntwerp nog niets.",
                 en: "My How might we question: [question]\nName five fields outside IT that have already solved a similar problem, such as transport, hospitality or healthcare. For each one, describe in two sentences how they do it, and what I can borrow.\nDon't design anything yet." } },
+    { id: "ui-patroonscan", phase: "sd", min: 10,
+      name: { nl: "UI-patroonscan", en: "UI pattern scan" },
+      when: { nl: "Je wilt weten hoe bekende apps hetzelfde soort probleem in een scherm oplossen.", en: "You want to know how well-known apps solve the same kind of problem in a screen." },
+      out: { nl: "Zes UI-patronen met een bekende app als voorbeeld, wat het patroon oplost en wat het kost.", en: "Six UI patterns with a well-known app as an example, what the pattern solves and what it costs." },
+      agent: { nl: "Noemt patronen (filter, stappenplan, kaartweergave, lijst met status) en de apps waar je ze ziet.", en: "Names patterns (filter, stepper, card view, list with status) and the apps where you can see them." },
+      you: { nl: "Zoek de screenshots zelf op, want de agent kan zich vergissen over hoe een app eruitziet. Check of het patroon past bij je gebruikers en bij wat je in Mendix kunt bouwen.", en: "Look up the screenshots yourself, because the agent can be wrong about how an app looks. Check whether the pattern fits your users and what you can build in Mendix." },
+      prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nHet scherm of moment waar het om gaat: [scherm].\nNoem zes UI-patronen die bekende apps gebruiken voor dit soort scherm. Geef per patroon: de naam, een app waar ik het kan zien, wat het patroon oplost en wat het kost (bijvoorbeeld ruimte, uitleg of bouwtijd).\nOntwerp nog niets en kies nog niets.",
+                en: "My How might we question: [question]\nThe screen or moment this is about: [screen].\nName six UI patterns that well-known apps use for this kind of screen. For each pattern give: the name, an app where I can see it, what the pattern solves and what it costs (for example space, explanation or build time).\nDon't design anything yet and don't choose anything yet." } },
+    { id: "morfologische-matrix", phase: "sd", min: 10,
+      name: { nl: "Morfologische matrix", en: "Morphological matrix" },
+      when: { nl: "Je oplossing bestaat uit losse keuzes, zoals hoe je iets vindt, hoe je het vastlegt en hoe je een melding krijgt.", en: "Your solution consists of separate choices, such as how you find something, how you book it and how you get notified." },
+      out: { nl: "Een tabel met vier tot zes onderdelen met per onderdeel vier opties, plus vijf combinaties die je anders niet had bedacht.", en: "A table with four to six parts and four options per part, plus five combinations you wouldn't have come up with otherwise." },
+      agent: { nl: "Splitst je vraag in onderdelen, vult de opties per kolom en trekt combinaties, ook onverwachte.", en: "Splits your question into parts, fills the options per column and draws combinations, unexpected ones too." },
+      you: { nl: "Controleer of de onderdelen kloppen, schrap onmogelijke opties en kies twee combinaties die bij elkaar passen.", en: "Check that the parts make sense, cross out impossible options and pick two combinations that fit together." },
+      prompt: { nl: "Mijn Hoe kunnen we-vraag: [vraag]\nSplits de oplossing in vier tot zes onderdelen die los van elkaar te kiezen zijn (bijvoorbeeld: hoe vind je een plek, hoe leg je hem vast, hoe krijg je een melding).\nMaak een tabel met per onderdeel vier opties, van gewoon tot gewaagd.\nTrek daarna vijf combinaties, waarvan twee onverwachte, en geef elke combinatie een naam.\nOntwerp nog niets en kies nog niets.",
+                en: "My How might we question: [question]\nSplit the solution into four to six parts that can be chosen independently (for example: how you find a spot, how you book it, how you get notified).\nMake a table with four options per part, from ordinary to bold.\nThen draw five combinations, two of them unexpected, and give each combination a name.\nDon't design anything yet and don't choose anything yet." } },
+    { id: "storyboard", phase: "sd", min: 10,
+      name: { nl: "Storyboard", en: "Storyboard" },
+      when: { nl: "Je wilt zien hoe een idee werkt in de tijd, van aanleiding tot resultaat.", en: "You want to see how an idea works over time, from trigger to result." },
+      out: { nl: "Een storyboard van zes tot acht beelden: waar de gebruiker is, wat ze doet, wat ze ziet en hoe het afloopt.", en: "A storyboard of six to eight frames: where the user is, what they do, what they see and how it ends." },
+      agent: { nl: "Schrijft het scenario per beeld, met wat de gebruiker ziet en denkt, en markeert waar het wringt.", en: "Writes the scenario per frame, with what the user sees and thinks, and marks where it chafes." },
+      you: { nl: "Schets de beelden als stripje, poppetjes mogen. Controleer of de volgorde klopt en of een gebruiker dit echt zo zou doen.", en: "Sketch the frames as a comic strip, stick figures are fine. Check that the order is right and that a user would really do this." },
+      prompt: { nl: "Mijn idee: [idee]. Mijn gebruiker: [gebruiker, situatie].\nSchrijf een storyboard van zes tot acht beelden. Per beeld: waar is de gebruiker, wat doet ze, wat ziet ze op het scherm en wat denkt ze.\nBegin bij de aanleiding en eindig bij het resultaat. Zet (let op) bij de momenten waar het idee kan wringen.\nOntwerp nog geen schermen.",
+                en: "My idea: [idea]. My user: [user, situation].\nWrite a storyboard of six to eight frames. Per frame: where is the user, what do they do, what do they see on the screen and what do they think.\nStart at the trigger and end at the result. Put (watch out) at the moments where the idea could chafe.\nDon't design any screens yet." } },
+    { id: "schermvarianten", phase: "sd", min: 10,
+      name: { nl: "Schermvarianten", en: "Screen variants" },
+      when: { nl: "Je weet wat een scherm moet doen, maar nog niet hoe het eruit moet zien.", en: "You know what a screen has to do, but not yet what it should look like." },
+      out: { nl: "Vijf varianten van één scherm in tekst: indeling, wat bovenaan staat en de hoofdactie, met voor- en nadelen.", en: "Five variants of one screen in text: layout, what is at the top and the main action, with pros and cons." },
+      agent: { nl: "Beschrijft vijf indelingen met elk een andere hoofdgedachte, bijvoorbeeld lijst, kaart, stappenplan of zoekvak eerst.", en: "Describes five layouts, each with a different main idea, for example list, map, stepper or search first." },
+      you: { nl: "Kies twee varianten om te schetsen of uit te werken. Let op wat de agent weglaat en of het in Mendix te bouwen is.", en: "Pick two variants to sketch or develop. Watch what the agent leaves out and whether it can be built in Mendix." },
+      prompt: { nl: "Het scherm: [naam en doel in één zin]. De gebruiker en het apparaat: [gebruiker, mobiel of desktop].\nWat het scherm moet laten zien: [informatie]. Wat de gebruiker hier moet kunnen doen: [acties].\nBeschrijf vijf indelingen met elk een andere hoofdgedachte. Geef per variant: wat bovenaan staat, de hoofdactie, hoe de informatie gegroepeerd is, en een voordeel en een nadeel.\nOntwerp nog niets en kies nog niets.",
+                en: "The screen: [name and purpose in one sentence]. The user and device: [user, mobile or desktop].\nWhat the screen has to show: [information]. What the user has to be able to do here: [actions].\nDescribe five layouts, each with a different main idea. For each variant give: what is at the top, the main action, how the information is grouped, and one pro and one con.\nDon't design anything yet and don't choose anything yet." } },
     { id: "zes-drie-vijf", phase: "sd", min: 15,
       name: { nl: "6-3-5 met AI-personages", en: "6-3-5 with AI personas" },
       when: { nl: "Je werkt alleen, maar wilt een groep die op elkaars ideeën voortbouwt.", en: "You work alone, but want a group that builds on each other's ideas." },
@@ -447,13 +511,18 @@ footer {
   ];
 
   var CHOOSE = [
-    { nl: "weten wie mijn gebruiker is", en: "understand who my user is", ids: ["empathy-map", "rollenspel-interview"] },
+    { nl: "weten wie mijn gebruiker is", en: "understand who my user is", ids: ["empathy-map", "rollenspel-interview", "persona"] },
+    { nl: "weten waarom mijn gebruiker dit doet", en: "understand why my user does this", ids: ["jobs-to-be-done"] },
     { nl: "de oorzaak achter een symptoom vinden", en: "find the cause behind a symptom", ids: ["vijf-waarom"] },
+    { nl: "mijn probleem in één zin vastleggen", en: "capture my problem in one sentence", ids: ["probleemstelling"] },
     { nl: "een startvraag voor mijn brainstorm", en: "get a starting question for my brainstorm", ids: ["hoe-kunnen-we"] },
+    { nl: "weten waar een goede oplossing aan moet voldoen", en: "know what a good solution has to meet", ids: ["ontwerp-succescriteria"] },
     { nl: "een bestaand proces of scherm verbeteren", en: "improve an existing process or screen", ids: ["scamper"] },
     { nl: "breed gaan, ik weet niet waar de oplossing zit", en: "go broad, I don't know where the solution is", ids: ["lotusbloem", "mindmap"] },
-    { nl: "uit de voor de hand liggende ideeën komen", en: "get out of the obvious ideas", ids: ["omgekeerd-brainstormen", "analogieen"] },
-    { nl: "snel visuele varianten van één scherm", en: "quick visual variants of one screen", ids: ["crazy-8s"] },
+    { nl: "uit de voor de hand liggende ideeën komen", en: "get out of the obvious ideas", ids: ["omgekeerd-brainstormen", "analogieen", "morfologische-matrix"] },
+    { nl: "snel visuele varianten van één scherm", en: "quick visual variants of one screen", ids: ["crazy-8s", "schermvarianten"] },
+    { nl: "zien hoe bekende apps dit scherm oplossen", en: "see how well-known apps solve this screen", ids: ["ui-patroonscan"] },
+    { nl: "zien hoe een idee werkt in de tijd", en: "see how an idea works over time", ids: ["storyboard"] },
     { nl: "een groep nadoen terwijl ik alleen werk", en: "simulate a group while working alone", ids: ["zes-drie-vijf"] },
     { nl: "kiezen uit te veel ideeën", en: "choose from too many ideas", ids: ["impact-moeite"] },
     { nl: "mijn richting testen voor ik naar de business ga", en: "test my direction before I go to the business", ids: ["zes-denkhoeden", "pre-mortem"] }
