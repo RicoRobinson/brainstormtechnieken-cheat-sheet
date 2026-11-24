@@ -23,12 +23,13 @@
   --line: #DAD2E5;        /* brand lilac line */
   --div: #492D7B;         /* brand purple */
   --div-soft: #EDE9F2;
+  --div-edge: #A996CB;    /* derived: soft purple for card edges */
   --con: #A60726;         /* brand red */
   --con-soft: #FDF2E5;
   --you-bg: #FDF2E5;      /* brand peach */
   --you-fg: #2A1449;
   --you-edge: #EF7D00;    /* brand orange, decorative only */
-  --agent-bg: #EDE9F2;    /* brand lilac */
+  --agent-bg: #F4F1F9;    /* derived: lighter than brand lilac #EDE9F2 */
   --code-bg: #F2EFF6;     /* brand */
   --accent: #A60726;
   --accent-hover: #98202B;
@@ -41,17 +42,17 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0A0414; --surface: #2A1449; --fg: #F2EFF6; --muted: #C4B8D8; --line: #4A3573;
-    --div: #B39DDB; --div-soft: #3A2560; --con: #EF7D00; --con-soft: #4A2A1C;
-    --you-bg: #4A2A1C; --you-fg: #F6E9D8; --you-edge: #EF7D00; --agent-bg: #3A2560; --code-bg: #22103D;
+    --bg: #0A0414; --surface: #1E112F; --fg: #F2EFF6; --muted: #C4B8D8; --line: #4A3573;
+    --div: #B39DDB; --div-soft: #3A2560; --div-edge: #6B53A0; --con: #EF7D00; --con-soft: #4A2A1C;
+    --you-bg: #4A2A1C; --you-fg: #F6E9D8; --you-edge: #EF7D00; --agent-bg: #321B58; --code-bg: #22103D;
     --accent: #EF7D00; --accent-hover: #F39A3D; --accent-fg: #2A1449; --focus: #FFB86B;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0A0414; --surface: #2A1449; --fg: #F2EFF6; --muted: #C4B8D8; --line: #4A3573;
-  --div: #B39DDB; --div-soft: #3A2560; --con: #EF7D00; --con-soft: #4A2A1C;
-  --you-bg: #4A2A1C; --you-fg: #F6E9D8; --you-edge: #EF7D00; --agent-bg: #3A2560; --code-bg: #22103D;
+  --bg: #0A0414; --surface: #1E112F; --fg: #F2EFF6; --muted: #C4B8D8; --line: #4A3573;
+  --div: #B39DDB; --div-soft: #3A2560; --div-edge: #6B53A0; --con: #EF7D00; --con-soft: #4A2A1C;
+  --you-bg: #4A2A1C; --you-fg: #F6E9D8; --you-edge: #EF7D00; --agent-bg: #321B58; --code-bg: #22103D;
   --accent: #EF7D00; --accent-hover: #F39A3D; --accent-fg: #2A1449; --focus: #FFB86B;
   color-scheme: dark;
 }
@@ -143,15 +144,28 @@ button { font: inherit; color: inherit; }
 
 /* Quick chooser */
 .chooser { display: grid; gap: 1rem; }
-.choose-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 0.5rem 1.5rem; }
-.choose-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; padding-block: 0.5rem; border-bottom: 1px solid var(--line); }
-.choose-list .want { flex: 1 1 12rem; min-width: 0; }
-.choose-list .want::before { content: "\2022"; color: var(--focus); font-weight: 700; margin-right: 0.5rem; }
-.chip {
-  border: 1px solid var(--line); background: var(--surface);
-  padding: 0.15rem 0.7rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+.choose-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
+.choose-list li {
+  display: grid; gap: 0.75rem; align-content: start; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--line);
+  padding: 1rem 1.15rem 1.1rem;
 }
-.chip:hover { border-color: var(--focus); color: var(--focus); }
+.choose-list .want { font-weight: 600; line-height: 1.35; }
+.choose-list .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip {
+  position: relative; display: inline-flex; align-items: center;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-family: inherit;
+  padding: 0.3rem 2rem 0.3rem 0.8rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.chip:hover, .chip:focus-visible { border-color: var(--focus); color: var(--focus); }
+.chip .arrow {
+  position: absolute; right: 0.6rem; top: 50%; width: 1rem; height: 1rem; margin-top: -0.5rem;
+  opacity: 0; transform: translateX(-0.5rem);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.chip:hover .arrow, .chip:focus-visible .arrow { opacity: 1; transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) { .chip, .chip .arrow { transition: none; } .chip .arrow { transform: none; } }
 
 /* Cards */
 .grid-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
@@ -162,7 +176,7 @@ button { font: inherit; color: inherit; }
   padding: 1.15rem 1.25rem 1rem; display: grid; gap: 0.8rem; min-width: 0;
   scroll-margin-top: 1rem;
 }
-.card.div { border-top-color: var(--div); }
+.card.div { border-top-color: var(--div-edge); }
 .card.con { border-top-color: var(--con); }
 .card.flash { animation: flash 1.4s ease-out; }
 @keyframes flash { 0% { box-shadow: 0 0 0 4px var(--focus); } 100% { box-shadow: 0 0 0 0 transparent; } }
@@ -178,7 +192,7 @@ button { font: inherit; color: inherit; }
 .roles { display: grid; gap: 0.4rem; }
 .role { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); gap: 0.6rem; padding: 0.55rem 0.75rem; font-size: 0.95rem; border-left: 3px solid transparent; }
 .role .who { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; padding-top: 0.15rem; }
-.role.agent { background: var(--agent-bg); border-left-color: var(--div); }
+.role.agent { background: var(--agent-bg); border-left-color: var(--div-edge); }
 .role.agent .who { color: var(--div); }
 .role.you { background: var(--you-bg); color: var(--you-fg); border-left-color: var(--you-edge); }
 details { border-top: 1px solid var(--line); padding-top: 0.6rem; }
@@ -528,7 +542,8 @@ footer {
     { nl: "mijn richting testen voor ik naar de business ga", en: "test my direction before I go to the business", ids: ["zes-denkhoeden", "pre-mortem"] }
   ];
 
-  var PHASE_COLOR = { pd: "div", pc: "con", sd: "div", sc: "con" };
+  var ARROW = '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
+  var PHASE_COLOR ={ pd: "div", pc: "con", sd: "div", sc: "con" };
   var PHASE_IDX = { pd: 0, pc: 1, sd: 2, sc: 3 };
   var lang = "nl";
   var filter = null;
@@ -586,9 +601,9 @@ footer {
     list.innerHTML = CHOOSE.map(function (c) {
       var chips = c.ids.map(function (id) {
         var t = T.find(function (x) { return x.id === id; });
-        return '<button type="button" class="chip" data-goto="' + id + '">' + esc(t.name[lang]) + "</button>";
+        return '<button type="button" class="chip" data-goto="' + id + '">' + esc(t.name[lang]) + ARROW + "</button>";
       }).join("");
-      return '<li><span class="want">' + esc(c[lang]) + "</span>" + chips + "</li>";
+      return '<li><span class="want">' + esc(c[lang]) + '</span><div class="chips">' + chips + "</div></li>";
     }).join("");
   }
 
